@@ -1,0 +1,159 @@
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a.right_corner_item {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.topnav .search-form-div {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav .search-form-div select {
+    height: 22px;
+}
+
+#map {
+    width: 500px;
+    height: 500px;
+}
+
+#trumbowyg-demo {
+    width: 500px;
+    height: 200px;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/*RealEstate list*/
+.table-property
+{
+    display: table;
+    margin: auto;
+    width: 80%;
+}
+.table-property-title
+{
+    display: table-caption;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+.table-property-heading
+{
+    background-color: #DDD;
+    display: table-row;
+    font-weight: bold;
+    text-align: center;
+}
+.table-property-row
+{
+    display: table-row;
+}
+.table-property-cell
+{
+    display: table-cell;
+    border: solid;
+    border: 1px solid #999;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+/*Manage property page*/
+.table-property-details
+{
+    display: table;
+    margin: auto;
+    width: 80%;
+}
+
+.table-property-details-row
+{
+    display: table-row;
+}
+.table-property-details-cell
+{
+    display: table-cell;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: baseline;
+    border-bottom: 0.5pt solid gray;
+}
+.table-message-replay-cell
+{
+    display: table-cell;
+    padding-left:20px;
+}
+
+.login-div-format
+{
+    width: 250px;
+    border: solid 1px;
+    text-align: center;
+    padding: 20px;
+    /*position: absolute;*/
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 250px;
+    height: 140px;
+}
+
+.register-div-format
+{
+    border: solid 1px;
+    text-align: center;
+    padding: 20px;
+    /*position: absolute;*/
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 320px;
+    height: 180px;
+}
+

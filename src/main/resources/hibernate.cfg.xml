@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+
+    <property name="connection.url">jdbc:mysql://localhost:3306/sale_purchase_db</property>
+
+    <property name="connection.username">root</property>
+
+    <property name="connection.password"></property>
+
+    <property name="connection.pool_size">100</property>
+
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <property name="hibernate.current_session_context_class">thread</property>
+
+    <mapping class="com.qssoft.entities.Role"/>
+    <mapping class="com.qssoft.entities.User"/>
+    <mapping class="com.qssoft.entities.RealEstate"/>
+    <mapping class="com.qssoft.entities.Status"/>
+    <mapping class="com.qssoft.entities.DealType"/>
+    <mapping class="com.qssoft.entities.HotDeal"/>
+    <mapping class="com.qssoft.entities.Message"/>
+    <mapping class="com.qssoft.entities.PropertyPicture"/>
+  </session-factory>
+</hibernate-configuration>

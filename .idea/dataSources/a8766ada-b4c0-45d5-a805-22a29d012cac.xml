@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="sale_purchase_db@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="sale_purchase_db">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="dbtp1"/>
+    <schema id="4" parent="1" name="gps"/>
+    <schema id="5" parent="1" name="hb_student_tracker"/>
+    <schema id="6" parent="1" name="information_schema"/>
+    <schema id="7" parent="1" name="mydb"/>
+    <schema id="8" parent="1" name="mysql"/>
+    <schema id="9" parent="1" name="performance_schema"/>
+    <schema id="10" parent="1" name="phpmyadmin"/>
+    <schema id="11" parent="1" name="project_db"/>
+    <schema id="12" parent="1" name="propertylisting"/>
+    <schema id="13" parent="1" name="realestate"/>
+    <schema id="14" parent="1" name="test"/>
+    <schema id="15" parent="1" name="test1"/>
+    <schema id="16" parent="1" name="testdb"/>
+    <schema id="17" parent="1" name="theappstore"/>
+    <schema id="18" parent="1" name="web_customer_tracker"/>
+    <table id="19" parent="2" name="dealtype"/>
+    <table id="20" parent="2" name="hotdeals"/>
+    <table id="21" parent="2" name="messages"/>
+    <table id="22" parent="2" name="realestates"/>
+    <table id="23" parent="2" name="realestatestatus"/>
+    <table id="24" parent="2" name="roles"/>
+    <table id="25" parent="2" name="users"/>
+    <column id="26" parent="19" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="27" parent="19" name="name">
+      <Position>2</Position>
+      <DataType>varchar(16)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="28" parent="19" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="29" parent="20" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="30" parent="20" name="propertyId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="20" name="hits">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="32" parent="20" name="propertyId">
+      <ColNames>propertyId</ColNames>
+    </index>
+    <key id="33" parent="20" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="34" parent="20" name="hotdeals_ibfk_1">
+      <ColNames>propertyId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>realestates</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="35" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="36" parent="21" name="senderId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="37" parent="21" name="recipientId">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="38" parent="21" name="message">
+      <Position>4</Position>
+      <DataType>varchar(512)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="21" name="statusId">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="21" name="propertyId">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="41" parent="21" name="propertyId">
+      <ColNames>propertyId</ColNames>
+    </index>
+    <index id="42" parent="21" name="recipientId">
+      <ColNames>recipientId</ColNames>
+    </index>
+    <index id="43" parent="21" name="senderId">
+      <ColNames>senderId</ColNames>
+    </index>
+    <key id="44" parent="21" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="45" parent="21" name="messages_ibfk_3">
+      <ColNames>senderId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="46" parent="21" name="messages_ibfk_1">
+      <ColNames>recipientId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="47" parent="21" name="messages_ibfk_2">
+      <ColNames>propertyId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>realestates</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="48" parent="22" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="49" parent="22" name="dealTypeId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="50" parent="22" name="title">
+      <Position>3</Position>
+      <DataType>varchar(512)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="51" parent="22" name="description">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="52" parent="22" name="ownerId">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="22" name="statusId">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="22" name="adminNote">
+      <Position>7</Position>
+      <DataType>varchar(512)|0</DataType>
+    </column>
+    <column id="55" parent="22" name="address">
+      <Position>8</Position>
+      <DataType>varchar(512)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="56" parent="22" name="pictureCode">
+      <Position>9</Position>
+      <DataType>varchar(512)|0</DataType>
+    </column>
+    <column id="57" parent="22" name="price">
+      <Position>10</Position>
+      <DataType>decimal(18,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="58" parent="22" name="nearbyLocations">
+      <Position>11</Position>
+      <DataType>varchar(1024)|0</DataType>
+    </column>
+    <column id="59" parent="22" name="lat">
+      <Position>12</Position>
+      <DataType>float(10,6)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="22" name="lng">
+      <Position>13</Position>
+      <DataType>float(10,6)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="61" parent="22" name="dealTypeId">
+      <ColNames>dealTypeId</ColNames>
+    </index>
+    <index id="62" parent="22" name="ownerId">
+      <ColNames>ownerId</ColNames>
+    </index>
+    <index id="63" parent="22" name="statusId">
+      <ColNames>statusId</ColNames>
+    </index>
+    <key id="64" parent="22" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="65" parent="22" name="realestates_ibfk_1">
+      <ColNames>dealTypeId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>dealtype</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+    </foreign-key>
+    <foreign-key id="66" parent="22" name="realestates_ibfk_2">
+      <ColNames>ownerId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+    </foreign-key>
+    <foreign-key id="67" parent="22" name="realestates_ibfk_3">
+      <ColNames>statusId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>realestatestatus</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+    </foreign-key>
+    <column id="68" parent="23" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="69" parent="23" name="name">
+      <Position>2</Position>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="70" parent="23" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="71" parent="24" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="72" parent="24" name="name">
+      <Position>2</Position>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="73" parent="24" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="74" parent="25" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="75" parent="25" name="login">
+      <Position>2</Position>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="76" parent="25" name="password">
+      <Position>3</Position>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="77" parent="25" name="roleId">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="78" parent="25" name="roleId">
+      <ColNames>roleId</ColNames>
+    </index>
+    <key id="79" parent="25" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="80" parent="25" name="users_ibfk_1">
+      <ColNames>roleId</ColNames>
+      <RefSchemaName>sale_purchase_db</RefSchemaName>
+      <RefTableName>roles</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
