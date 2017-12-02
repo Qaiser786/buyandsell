@@ -54,7 +54,12 @@ class RealEstateToPropertyHelperService
                 entity.getPictureCode(),
                 entity.getCity(),
                 entity.getPropertyTypeId(),
-                entity.getPropertyType() != null ? entity.getPropertyType().getName() : null
+                entity.getPropertyType() != null ? entity.getPropertyType().getName() : null,
+                entity.getImg1(),
+                entity.getImg2(),
+                entity.getImg3(),
+                entity.getImg4(),
+                entity.getImg5()
         );
         return result;
     }

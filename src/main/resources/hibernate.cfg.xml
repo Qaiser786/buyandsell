@@ -27,5 +27,6 @@
     <mapping class="com.qssoft.entities.Message"/>
     <mapping class="com.qssoft.entities.PropertyPicture"/>
     <mapping class="com.qssoft.entities.PropertyType"/>
+    <mapping class="com.qssoft.entities.File"/>
   </session-factory>
 </hibernate-configuration>

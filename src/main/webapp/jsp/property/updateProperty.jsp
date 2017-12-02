@@ -133,6 +133,7 @@
                                 <input type="hidden" id="ownerId" name="ownerId" value="${property.ownerId}"/>
                                 <input type="hidden" id="statusId" name="statusId" value="${property.statusId}"/>
                                 <input type="hidden" id="pictureCode" name="pictureCode" value="${property.pictureCode}"/>
+                                <input type="hidden" id="img1" name="img1" value="${property.img1}"/>
                             </div>
                         </form>
 
@@ -146,28 +147,34 @@
                                 </div>
                             </div>
 
-                            <div class="table-property-details-row">
+                            <div class="table-property-details-row" id="picturesDiv" style="${empty property.img1 ? 'display: none' : ''}">
                                 <div class="table-property-details-cell">
                                     &nbsp;
                                 </div>
+                                <div id="imageTemplateWrapper" class="table-property-details-cell">
+                                    <div id="imageLoader" style="display: none"></div>
+                                    <img id="imageTemplate" src="${pageContext.request.contextPath}/files/file/${property.img1}"/>
+                                </div>
+                            </div>
+
+                            <div class="table-property-details-row">
                                 <div class="table-property-details-cell">
-                                    <form action="uploadPicture" method="post" enctype="multipart/form-data">
-                                        Select Photo: <input type="file" name="file" id="file"/>
-                                        <input type="button" id="fileUpload" class="button" value="Upload Photo"/>
+                                    <label for="file">Upload photo:</label>
+                                </div>
+                                <div class="table-property-details-cell">
+                                    <form action="${pageContext.request.contextPath}/files/upload"
+                                          id="fileUploadForm"
+                                          method="POST"
+                                          enctype="multipart/form-data"
+                                          target="uploadFileIframe">
+                                        <label>Max file size 10 Mb</label>
+                                        <br/>
+                                        <input type="file" id="file" name="file" accept="image/jpeg,image/gif,image/png"/>
                                     </form>
                                 </div>
                             </div>
 
-                            <div class="table-property-details-row" id="picturesDiv" style="display: none">
-                                <div class="table-property-details-cell">
-                                    &nbsp;
-                                </div>
-                                <div id="imageTemplateWrapper" style="display: none">
-                                    <img id="imageTemplate" width="100" src=""/>
-                                </div>
-                                <div id="imageGallery" class="table-property-details-cell">
-                                </div>
-                            </div>
+                            <iframe id="uploadFileIframe" name="uploadFileIframe" style="display: none"></iframe>
 
                             <div class="table-property-details-row">
                                 <div class="table-property-details-cell">
@@ -239,20 +246,39 @@
         });
     }
 </script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap">
-</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqdG0IEkNfpnAvbTk_CuRd0Dhl5trYb30&callback=initMap"></script>
 
 <script>
-    $(document).ready(function() {
-        var existingImage = $("#propertyForm input[name='pictureCode']").val();
-        if (existingImage != undefined && existingImage != "") {
-            $('#imageTemplate').attr("src", "/images/" + existingImage);
-            $("#imageGallery").html($("#imageTemplateWrapper").html())
-            $("#picturesDiv").show();
-        }
-    })
 
+    document.getElementById("imageTemplate").onload = function() {
+        $("#imageLoader").hide();
+        $("#js_form_submit").attr('disabled',false);
+        $("#js_form_submit").attr('alt',"");
+    };
+
+    document.getElementById("uploadFileIframe").onload = function() {
+        var reference = $($(this)[0].contentWindow.document.body.innerHTML).html();
+        document.getElementById("imageTemplate").src = "${pageContext.request.contextPath}/files/file/" + reference;
+        $("#img1").val(reference);
+    };
+
+    document.getElementById("file").onclick = function() {
+        this.value = null;
+    };
+
+    document.getElementById("file").onchange = function() {
+        var fileSize = this.files[0].size;
+        if (fileSize > 10485760) {
+            alert("File size exceeds 10 Mb.");
+        } else {
+            $("#js_form_submit").attr('disabled', true);
+            $("#js_form_submit").attr('alt', "Please wait for the Images to upload.");
+            $("#picturesDiv").show();
+            $("#imageLoader").show();
+            $("#fileUploadForm").submit();
+        }
+    };
 
     $("#js_form_submit").click(function (evt) {
         if ($("#propertyForm input[name='price']").val() == "") {
@@ -264,26 +290,6 @@
         $("#propertyForm").submit();
     })
 
-    $("#fileUpload").click(function (evt) {
-        var formData = new FormData();
-        formData.append('file', $('#file')[0].files[0]);
-
-        $.ajax({
-            url : '/uploadPicture',
-            type : 'POST',
-            method: 'POST',
-            data : formData,
-            processData: false,
-            contentType: false,
-            success : function(data) {
-                console.log(data);
-                $("#propertyForm input[name='pictureCode']").val(data);
-                $('#imageTemplate').attr("src", "/images/" + data);
-                $("#imageGallery").html($("#imageTemplateWrapper").html())
-                $("#picturesDiv").show();
-            }
-        });
-    })
 </script>
 
 </body>

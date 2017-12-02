@@ -23,6 +23,11 @@ public class Property
     private String city;
     private Integer propertyTypeId;
     private String propertyTypeName;
+    private String img1;
+    private String img2;
+    private String img3;
+    private String img4;
+    private String img5;
 
     public String getTitle() {
         return title;
@@ -176,6 +181,46 @@ public class Property
         this.propertyTypeName = propertyTypeName;
     }
 
+    public String getImg1() {
+        return img1;
+    }
+
+    public void setImg1(String img1) {
+        this.img1 = img1;
+    }
+
+    public String getImg2() {
+        return img2;
+    }
+
+    public void setImg2(String img2) {
+        this.img2 = img2;
+    }
+
+    public String getImg3() {
+        return img3;
+    }
+
+    public void setImg3(String img3) {
+        this.img3 = img3;
+    }
+
+    public String getImg4() {
+        return img4;
+    }
+
+    public void setImg4(String img4) {
+        this.img4 = img4;
+    }
+
+    public String getImg5() {
+        return img5;
+    }
+
+    public void setImg5(String img5) {
+        this.img5 = img5;
+    }
+
     public Property() {}
 
     public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer
@@ -190,6 +235,16 @@ public class Property
             ownerId, String address, String nearbyLocations, String adminNote, Integer statusId, Float latitude,
             Float longitude, String statusDescription, String ownerName, String dealDescription, String pictureCode,
             String city, Integer propertyTypeId, String propertyTypeName) {
+        this(id, title, description, dealTypeId, price, ownerId, address, nearbyLocations, adminNote, statusId, latitude,
+                longitude, statusDescription, ownerName, dealDescription, pictureCode, city, propertyTypeId, propertyTypeName,
+                null, null, null, null, null);
+    }
+
+    public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer ownerId,
+                    String address, String nearbyLocations, String adminNote, Integer statusId, Float latitude,
+                    Float longitude, String statusDescription, String ownerName, String dealDescription, String pictureCode,
+                    String city, Integer propertyTypeId, String propertyTypeName, String img1, String img2, String img3,
+                    String img4, String img5) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -209,6 +264,11 @@ public class Property
         this.city = city;
         this.propertyTypeId = propertyTypeId;
         this.propertyTypeName = propertyTypeName;
+        this.img1 = img1;
+        this.img2 = img2;
+        this.img3 = img3;
+        this.img4 = img4;
+        this.img5 = img5;
     }
 
     @Override

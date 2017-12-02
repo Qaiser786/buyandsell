@@ -76,8 +76,8 @@
                     <div class="wrapper pad_bot3">
                       <input type="hidden" class="js_property_id" value="${property.id}" />
                       <c:set var="imgUrl" value="/images/noimage.png"/>
-                      <c:if test="${not empty property.pictureCode}">
-                          <c:set var="imgUrl" value="/images/${property.pictureCode}"/>
+                      <c:if test="${not empty property.img1}">
+                          <c:set var="imgUrl" value="/files/file/${property.img1}"/>
                       </c:if>
                       <figure class="left marg_right1"><img width="100" src="${imgUrl}" alt=""></figure>
                       <p class="pad_bot1"><strong class="color2">${property.title}<br>

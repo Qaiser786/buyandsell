@@ -117,8 +117,8 @@
                                 </div>
                                 <div class="table-property-details-cell">
                                     <c:set var="imgUrl" value="/images/noimage.png"/>
-                                    <c:if test="${not empty property.pictureCode}">
-                                        <c:set var="imgUrl" value="/images/${property.pictureCode}"/>
+                                    <c:if test="${not empty property.img1}">
+                                        <c:set var="imgUrl" value="/files/file/${property.img1}"/>
                                     </c:if>
                                     <figure class="left marg_right1"><img width="500" src="${imgUrl}" alt=""></figure>
                                 </div>

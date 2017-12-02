@@ -53,52 +53,6 @@ public class RealEstateDAO {
         }
     }
 
-    @Deprecated
-    public static class AddressCount {
-        private String city;
-        private String address;
-        private String type;
-        private Long count;
-        AddressCount(String city, String address, String type, Long count) {
-            this.address = address;
-            this.type = type;
-            this.city = city;
-            this.count = count;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public Long getCount() {
-            return count;
-        }
-
-        public void setCount(Long count) {
-            this.count = count;
-        }
-    }
-
     public void createUpdateProperty(Property realEstateDTO) {
         Session session = SessionFactoryHelper.getSession();
         RealEstate entity = createEntity(realEstateDTO);
@@ -362,7 +316,12 @@ public class RealEstateDAO {
                 property.getLongitude(),
                 property.getPictureCode(),
                 property.getCity(),
-                property.getPropertyTypeId()
+                property.getPropertyTypeId(),
+                property.getImg1(),
+                property.getImg2(),
+                property.getImg3(),
+                property.getImg4(),
+                property.getImg5()
         );
 
         return realEstate;
