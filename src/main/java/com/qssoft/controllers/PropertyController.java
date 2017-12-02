@@ -6,6 +6,7 @@ import com.qssoft.security.UserAccessHelper;
 import com.qssoft.services.DealTypeService;
 import com.qssoft.services.MessageService;
 import com.qssoft.services.PropertyDetailsService;
+import com.qssoft.services.PropertyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,11 +54,28 @@ public class PropertyController
     @Autowired
     DealTypeService dealTypeService;
 
+    @Autowired
+    private PropertyTypeService propertyTypeService;
+
     @RequestMapping(value = "/addProperty", method = RequestMethod.GET)
     public String addProperty(Model model) {
         model.addAttribute("property", new Property());
         model.addAttribute("dealTypes", dealTypeService.getAllDealTypes());
+        model.addAttribute("propertyTypes", propertyTypeService.getAllPropertyTypes());
         return "property/updateProperty";
+    }
+
+    @RequestMapping(value = "/addProperty", method = RequestMethod.POST)
+    public void addProperty(@ModelAttribute Property property, HttpServletResponse response) throws IOException {
+        if (property.getOwnerId() == null) {
+            property.setOwnerId(UserAccessHelper.getUserId());
+        }
+        if (property.getStatusId() == null) {
+            property.setStatusId(propertyStatusMap.get("NEW"));
+        }
+        propertyDetailsService.createOrUpdateProperty(property);
+
+        response.sendRedirect("/");
     }
 
     @RequestMapping(value = "/updateProperty/{id}", method = RequestMethod.GET)
@@ -71,6 +89,7 @@ public class PropertyController
             model.addAttribute("messages", messagesList);
         }
         model.addAttribute("dealTypes", dealTypeService.getAllDealTypes());
+        model.addAttribute("propertyTypes", propertyTypeService.getAllPropertyTypes());
         model.addAttribute("property", property);
         return "property/updateProperty";
     }
@@ -95,19 +114,6 @@ public class PropertyController
     public ResponseEntity<String> approveProperty(@PathVariable("id") final String id) {
         propertyDetailsService.approveProperty(Integer.parseInt(id));
         return new ResponseEntity<>("success", HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/addProperty", method = RequestMethod.POST)
-    public void addProperty(@ModelAttribute Property property, HttpServletResponse response) throws IOException {
-        if (property.getOwnerId() == null) {
-            property.setOwnerId(UserAccessHelper.getUserId());
-        }
-        if (property.getStatusId() == null) {
-            property.setStatusId(propertyStatusMap.get("NEW"));
-        }
-        propertyDetailsService.createOrUpdateProperty(property);
-
-        response.sendRedirect("/");
     }
 
 

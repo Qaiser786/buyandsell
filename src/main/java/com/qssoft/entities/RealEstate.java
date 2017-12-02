@@ -5,14 +5,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "Realestates")
 public class RealEstate implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
     private Integer id;
     private Integer dealTypeId;
     private String title;
@@ -26,6 +25,10 @@ public class RealEstate implements Serializable
     private Float latitude;
     private Float longitude;
     private String pictureCode;
+    private Integer propertyTypeId;
+    private String city;
+
+    private PropertyType propertyType;
 
     @Id
     @GeneratedValue(generator="increment")
@@ -133,6 +136,10 @@ public class RealEstate implements Serializable
         return longitude;
     }
 
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
     @Column(name = "pictureCode")
     public String getPictureCode() {
         return pictureCode;
@@ -142,12 +149,42 @@ public class RealEstate implements Serializable
         this.pictureCode = pictureCode;
     }
 
-    public void setLongitude(Float longitude) {
-        this.longitude = longitude;
+    @Column(name = "propertyTypeId")
+    public Integer getPropertyTypeId() {
+        return propertyTypeId;
+    }
+
+    public void setPropertyTypeId(Integer propertyTypeId) {
+        this.propertyTypeId = propertyTypeId;
+    }
+
+    @Column(name = "city")
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "propertyTypeId", insertable = false, updatable = false)
+    public PropertyType getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(PropertyType propertyType) {
+        this.propertyType = propertyType;
     }
 
     public RealEstate(Integer id, Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
             address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude, String pictureCode) {
+        this(id, dealTypeId, title, description, ownerId, price, address, nearbyLocations, adminNote, statusId, latitude, longitude, pictureCode, null, null);
+    }
+
+    public RealEstate(Integer id, Integer dealTypeId, String title, String description, Integer ownerId, BigDecimal price, String
+              address, String nearbyLocations, String adminNote, Integer statusId, Float latitude, Float longitude, String pictureCode,
+              String city, Integer propertyTypeId) {
         this.id = id;
         this.dealTypeId = dealTypeId;
         this.title = title;
@@ -161,6 +198,8 @@ public class RealEstate implements Serializable
         this.latitude = latitude;
         this.longitude = longitude;
         this.pictureCode = pictureCode;
+        this.city = city;
+        this.propertyTypeId = propertyTypeId;
     }
 
     public RealEstate() {

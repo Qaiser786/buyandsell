@@ -9,6 +9,7 @@
 <head>
     <navigation:navigationBar/>
 
+    <title>${property.title}</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 </head>
@@ -49,6 +50,17 @@
                                 </div>
                             </div>
 
+                            <c:if test="${not empty property.propertyTypeName}">
+                                <div class="table-property-details-row">
+                                    <div class="table-property-details-cell">
+                                        <label for="propertyTypeStr">Property Type:</label>
+                                    </div>
+                                    <div class="table-property-details-cell">
+                                        <div id="propertyTypeStr">${property.propertyTypeName}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+
                             <div class="table-property-details-row">
                                 <div class="table-property-details-cell">
                                     <label for="priceStr">Price:</label>
@@ -57,6 +69,18 @@
                                     <div id="priceStr">$ ${property.price}</div>
                                 </div>
                             </div>
+
+
+                            <c:if test="${not empty property.city}">
+                                <div class="table-property-details-row">
+                                    <div class="table-property-details-cell">
+                                        <label for="cityStr">City:</label>
+                                    </div>
+                                    <div class="table-property-details-cell">
+                                        <div id="cityStr">${property.city}</div>
+                                    </div>
+                                </div>
+                            </c:if>
 
                             <div class="table-property-details-row">
                                 <div class="table-property-details-cell">
@@ -101,18 +125,20 @@
                             </div>
 
                             <sec:authorize access="isAuthenticated()">
-                                <div class="table-property-details-row">
-                                    <div class="table-property-details-cell">
-                                        Message to owner
-                                    </div>
-                                    <div class="table-property-details-cell">
-                                        <div style="padding-top: 10px">
-                                            <input type="text" id="messagecontent" value=""
-                                                   style="width:500px;height: 25px;"/>
-                                            <a href="#" id="js-send-message-btn" class="button js_approve_property_btn">Send</a>
+                                <c:set var="userId"><sec:authentication property="principal.id"/></c:set>
+                                <c:if test="${userId != property.ownerId}">
+                                    <div class="table-property-details-row">
+                                        <div class="table-property-details-cell">
+                                            Message to owner
+                                        </div>
+                                        <div class="table-property-details-cell">
+                                            <div style="padding-top: 10px">
+                                                <input type="text" id="messagecontent" value="" style="width:500px;height: 25px;"/>
+                                                <a href="#" id="js-send-message-btn" class="button js_approve_property_btn">Send</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </c:if>
                             </sec:authorize>
 
                             <input type="hidden" id="latitude" name="latitude" value="${property.latitude}"/>

@@ -10,6 +10,9 @@
     <navigation:navigationBar/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <title>
+        ${property.id eq null ? 'Add your Property' : 'Manage your Property'}
+    </title>
 </head>
 <body>
 
@@ -20,7 +23,16 @@
 
                 <article class="common_col">
                     <div class="pad2">
-                        <h2>Manage your property:</h2>
+                        <h2>
+                            <c:choose>
+                                <c:when test="${property.id eq null}">
+                                    Add your Property:
+                                </c:when>
+                                <c:otherwise>
+                                    Manage your Property:
+                                </c:otherwise>
+                            </c:choose>
+                        </h2>
 
                         <form id="propertyForm" name="f" th:action="@{/addProperty}" method="post">
                             <div class="table-property-details">
@@ -59,6 +71,19 @@
 
                                 <div class="table-property-details-row">
                                     <div class="table-property-details-cell">
+                                        <label for="propertyTypeId">Property Type:</label>
+                                    </div>
+                                    <div class="table-property-details-cell">
+                                        <select name="propertyTypeId" id="propertyTypeId">
+                                            <c:forEach items="${propertyTypes}" var="propertyType">
+                                                <option value="${propertyType.id}" ${propertyType.id eq property.propertyTypeId ? 'selected' : ''}>${propertyType.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="table-property-details-row">
+                                    <div class="table-property-details-cell">
                                         <label for="price">Price:</label>
                                     </div>
                                     <div class="table-property-details-cell">
@@ -69,13 +94,11 @@
 
                                 <div class="table-property-details-row">
                                     <div class="table-property-details-cell">
-                                        <label for="nearbyLocations">Important places:</label>
+                                        <label for="city">City:</label>
                                     </div>
                                     <div class="table-property-details-cell">
-                                        (input coma-separated list)
-                                        <br/>
-                                        <input type="text" id="nearbyLocations" name="nearbyLocations"
-                                               value="${property.nearbyLocations}"/>
+                                        <input type="textbox" id="city" name="city"
+                                               value="${property.city}"/>
                                     </div>
                                 </div>
 
@@ -89,6 +112,19 @@
                                         <input id="findLocation" class="button" type="button" value="Show on map">
                                     </div>
                                 </div>
+
+                                <div class="table-property-details-row">
+                                    <div class="table-property-details-cell">
+                                        <label for="nearbyLocations">Important places nearby:</label>
+                                    </div>
+                                    <div class="table-property-details-cell">
+                                        (input coma-separated list)
+                                        <br/>
+                                        <input type="text" id="nearbyLocations" name="nearbyLocations"
+                                               value="${property.nearbyLocations}"/>
+                                    </div>
+                                </div>
+
                                 <input type="hidden" id="id" name="id" value="${property.id}"/>
                                 <input type="hidden" id="address" name="address" value="${property.address}"/>
                                 <input type="hidden" id="description" name="description"/>
@@ -185,8 +221,9 @@
     }
 
     function geocodeAddress(geocoder, resultsMap) {
+        var city = document.getElementById('city').value;
         var address = document.getElementById('location').value;
-        geocoder.geocode({'address': address}, function (results, status) {
+        geocoder.geocode({'address': address + ' ' + city}, function (results, status) {
             if (status === 'OK') {
                 console.log('Here is the result' + results[0].geometry.location);
                 resultsMap.setCenter(results[0].geometry.location);

@@ -11,6 +11,7 @@ import com.qssoft.hibernate.SessionFactoryHelper;
 import com.qssoft.security.UserAccessHelper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,25 +23,89 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Repository
 @Transactional
-public class RealEstateDAO
-{
-    public void createUpdateProperty(Property realEstateDTO)
-    {
-        Session session = SessionFactoryHelper.getSession();
+public class RealEstateDAO {
 
+    public static class CityCount {
+        private String city;
+        private Long count;
+        CityCount(String city, Long count) { this.city = city; this.count = count; }
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public Long getCount() {
+            return count;
+        }
+
+        public void setCount(Long count) {
+            this.count = count;
+        }
+    }
+
+    @Deprecated
+    public static class AddressCount {
+        private String city;
+        private String address;
+        private String type;
+        private Long count;
+        AddressCount(String city, String address, String type, Long count) {
+            this.address = address;
+            this.type = type;
+            this.city = city;
+            this.count = count;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Long getCount() {
+            return count;
+        }
+
+        public void setCount(Long count) {
+            this.count = count;
+        }
+    }
+
+    public void createUpdateProperty(Property realEstateDTO) {
+        Session session = SessionFactoryHelper.getSession();
         RealEstate entity = createEntity(realEstateDTO);
 
         try {
             Transaction transaction = session.beginTransaction();
-
             session.saveOrUpdate(entity);
-
             transaction.commit();
 
         } catch (RuntimeException ex) {
@@ -145,6 +210,7 @@ public class RealEstateDAO
         }
         return result;
     }
+
     public List<RealEstate> searchPropertiesByCityName(String RWP) {
         Session session = SessionFactoryHelper.getSession();
         List<RealEstate> result = null;
@@ -164,6 +230,75 @@ public class RealEstateDAO
         }
         return result;
     }
+
+    public List<RealEstate> searchByFilters(String city, /* city parameter is required */
+                                            String address,
+                                            Double minPrice,
+                                            Double maxPrice,
+                                            Integer propertyTypeId) {
+        if ( city == null || city.isEmpty() ) {
+            throw new IllegalArgumentException("city parameter is required");
+        }
+
+        List<RealEstate> result = new LinkedList<>();
+
+        Session session = SessionFactoryHelper.getSession();
+        try {
+            session.beginTransaction();
+
+            StringBuilder sql = new StringBuilder("select r from RealEstate r where ( upper(r.city) LIKE :city or upper(r.address) LIKE :city )");
+
+            if ( address != null && !address.isEmpty() ) { sql.append(" and upper(r.address) LIKE :address"); }
+            if ( minPrice != null ) { sql.append(" and r.price >= :minPrice"); }
+            if ( maxPrice != null ) { sql.append(" and r.price <= :maxPrice"); }
+            if ( propertyTypeId != null ) { sql.append(" and r.propertyTypeId = :propertyTypeId"); }
+
+            Query query = session.createQuery(sql.toString());
+
+            query.setParameter("city", "%" + city.toUpperCase() + "%");
+
+            if ( address != null && !address.isEmpty() ) { query.setParameter("address", "%" + address.toUpperCase() + "%"); }
+            if ( minPrice != null ) { query.setParameter("minPrice", new BigDecimal(minPrice)); }
+            if ( maxPrice != null ) { query.setParameter("maxPrice", new BigDecimal(maxPrice)); }
+            if ( propertyTypeId != null ) { query.setParameter("propertyTypeId", propertyTypeId); }
+
+            result = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if ( session != null && session.isOpen() ) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<CityCount> getPopularCities() {
+        List<CityCount> result = new LinkedList<>();
+        Session session = SessionFactoryHelper.getSession();
+        try {
+            session.beginTransaction();
+
+            NativeQuery query = session.createNativeQuery("SELECT count(id) AS count , city FROM realestates GROUP BY city ORDER BY count DESC");
+            List<Object[]> resultSet = query.getResultList();
+            for (Object[] row : resultSet) {
+                result.add(new CityCount(String.valueOf(row[1]), new Long(String.valueOf(row[0]))));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if ( session != null && session.isOpen() ) {
+                session.getTransaction().commit();
+                session.close();
+            }
+        }
+        return result;
+    }
+
     public void changePropertyStatus(Integer id, Integer statusId) {
         Session session = SessionFactoryHelper.getSession();
         try {
@@ -225,7 +360,9 @@ public class RealEstateDAO
                 property.getStatusId(),
                 property.getLatitude(),
                 property.getLongitude(),
-                property.getPictureCode()
+                property.getPictureCode(),
+                property.getCity(),
+                property.getPropertyTypeId()
         );
 
         return realEstate;

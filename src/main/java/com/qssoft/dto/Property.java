@@ -20,6 +20,9 @@ public class Property
     private String ownerName;
     private String dealDescription;
     private String pictureCode;
+    private String city;
+    private Integer propertyTypeId;
+    private String propertyTypeName;
 
     public String getTitle() {
         return title;
@@ -149,13 +152,44 @@ public class Property
         this.pictureCode = pictureCode;
     }
 
-    public Property() {
+    public String getCity() {
+        return city;
     }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getPropertyTypeId() {
+        return propertyTypeId;
+    }
+
+    public void setPropertyTypeId(Integer propertyTypeId) {
+        this.propertyTypeId = propertyTypeId;
+    }
+
+    public String getPropertyTypeName() {
+        return propertyTypeName;
+    }
+
+    public void setPropertyTypeName(String propertyTypeName) {
+        this.propertyTypeName = propertyTypeName;
+    }
+
+    public Property() {}
 
     public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer
             ownerId, String address, String nearbyLocations, String adminNote, Integer statusId, Float latitude,
                     Float longitude, String statusDescription, String ownerName, String dealDescription, String
                             pictureCode) {
+        this(id, title, description, dealTypeId, price, ownerId, address, nearbyLocations, adminNote, statusId, latitude,
+                longitude, statusDescription, ownerName, dealDescription, pictureCode, null, null, null);
+    }
+
+    public Property(Integer id, String title, String description, Integer dealTypeId, BigDecimal price, Integer
+            ownerId, String address, String nearbyLocations, String adminNote, Integer statusId, Float latitude,
+            Float longitude, String statusDescription, String ownerName, String dealDescription, String pictureCode,
+            String city, Integer propertyTypeId, String propertyTypeName) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -172,6 +206,9 @@ public class Property
         this.ownerName = ownerName;
         this.dealDescription = dealDescription;
         this.pictureCode = pictureCode;
+        this.city = city;
+        this.propertyTypeId = propertyTypeId;
+        this.propertyTypeName = propertyTypeName;
     }
 
     @Override
