@@ -34,10 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
+        http.headers()
+                .frameOptions()
+                    .sameOrigin();
+
         http.authorizeRequests()
-                .antMatchers("/", "/js/**", "/css/**", "/viewProperty/*", "/register", "/images/**", "/images/property/**").permitAll()
+                .antMatchers("/", "/js/**", "/css/**", "/register", "/images/**", "/images/property/**", "/search", "/files/*").permitAll()
                 .antMatchers("/addProperty").hasAnyRole("ADMIN", "OWNER")
-                .anyRequest().authenticated()
+                .antMatchers("/files/upload", "/files/delete/*").hasAnyRole("ADMIN", "OWNER")
+                .antMatchers("/viewProperty/*").authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")

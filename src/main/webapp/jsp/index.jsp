@@ -26,27 +26,34 @@
           <article class="col2">
               <div class="pad_left1">
                 <h3>Find Your Property</h3>
-                <form action="/search" path="/search?" method="GET">
-                  <div class="search-form-div">
-                    Input your search criteria
-                    <input type="text" id="searchQuery" name="searchQuery"/>
-                    <select name="searchCondition" id="searchCondition">
-                      <option value="city">City</option>
-                      <option value="price">Price</option>
-                    </select>
 
-                  </div>
-                  <br/>
-
+                <form action="/search" method="GET">
+                    <div class="search-form-div">
+                        Input your search criteria
+                        <input type="text" id="cityInput" name="city" placeholder="City *" value="${param.city}" style="border-top: 1px solid black; width: 188px;"/>
+                        <input type="text" id="addressInput" name="address" placeholder="Location" value="${param.address}" style="border-top: 1px solid black; width: 188px;"/>
+                        <input type="number" id="minPriceInput" name="minPrice" placeholder="Min Price (Rs)" value="${param.minPrice}" style="border-top: 1px solid black; width: 188px;"/>
+                        <input type="number" id="maxPriceInput" name="maxPrice" placeholder="Max Price (Rs)" value="${param.maxPrice}" style="border-top: 1px solid black; width: 188px;"/>
+                        <select name="propertyTypeId" id="propertyTypeIdInput">
+                            <option value="-1">All Property Types</option>
+                            <c:forEach items="${propertyTypes}" var="propertyType">
+                            <option value="${propertyType.id}" ${propertyType.id eq param.propertyTypeId ? 'selected' : ''}>${propertyType.name}</option>
+                            </c:forEach>
+                        </select>
+                        <input type="submit" value="Search"/>
+                    </div>
+                    <c:if test="${not empty error}">
+                        <div style="background: #ff0000; color: #ffffff;">${error}</div>
+                    </c:if>
+                    <br/>
                 </form>
+
                 <div>
-                <h3>Explore in famous cities</h3><br>
-                <a href="http://localhost:8080/search?searchQuery=rawalpindi&searchCondition=city">Rawalpindi</a>&nbsp;
-                <a href="http://localhost:8080/search?searchQuery=islamabad&searchCondition=city">Islamabad</a>&nbsp;
-                <a href="http://localhost:8080/search?searchQuery=lahore&searchCondition=city">Lahore</a><br>
-                <a href="http://localhost:8080/search?searchQuery=karachi&searchCondition=city">Karachi</a>&nbsp;
-                <a href="http://localhost:8080/search?searchQuery=peshawar&searchCondition=city">Peshawar</a>&nbsp;
-                <a href="http://localhost:8080/search?searchQuery=Multan&searchCondition=city">Multan</a>
+                    <h3>Explore in famous cities</h3>
+                    <br/>
+                    <c:forEach items="${popularCities}" var="popularCity">
+                        <a href="${pageContext.request.contextPath}/search?city=${popularCity.city}">${popularCity.city}</a>&nbsp;(${popularCity.count})&nbsp;
+                    </c:forEach>
               </div>
               </div>
           </article>
@@ -69,13 +76,17 @@
                     <div class="wrapper pad_bot3">
                       <input type="hidden" class="js_property_id" value="${property.id}" />
                       <c:set var="imgUrl" value="/images/noimage.png"/>
-                      <c:if test="${not empty property.pictureCode}">
-                          <c:set var="imgUrl" value="/images/${property.pictureCode}"/>
+                      <c:if test="${not empty property.img1}">
+                          <c:set var="imgUrl" value="/files/file/${property.img1}"/>
                       </c:if>
                       <figure class="left marg_right1"><img width="100" src="${imgUrl}" alt=""></figure>
                       <p class="pad_bot1"><strong class="color2">${property.title}<br>
                         Price: <span class="color1">Rs&nbsp;${property.price}</span></strong></p>
-                      <div id="address">${property.address}</div>
+                      <div id="address">
+                          ${empty property.propertyTypeName ? '' : property.propertyTypeName.concat(' in ')}
+                          ${property.address}
+                          ${empty property.city ? '' : ' '.concat(property.city)}
+                      </div>
 
                     <%--<p class="pad_bot2">${property.description}</p>--%>
                       <sec:authorize access="isAuthenticated()">
@@ -97,7 +108,7 @@
                         </sec:authorize>
                       </sec:authorize>
 
-                      <sec:authorize access="hasAnyRole('ROLE_BUYER')">
+                      <sec:authorize access="isAuthenticated()">
                         <a href="/viewProperty/${property.id}" class="button">Read more</a>
                       </sec:authorize>
 

@@ -65,4 +65,17 @@ public class PropertyDetailsService
         return realEstateToPropertyHelperService.entityToPropertyList(realEstates);
     }
 
+    public List<Property> searchByFilters(String city, /* city parameter is required */
+                                          String address,
+                                          Double minPrice,
+                                          Double maxPrice,
+                                          Integer propertyTypeId) {
+        List<RealEstate> realEstates = realEstateDAO.searchByFilters(city, address, minPrice, maxPrice, propertyTypeId);
+        return realEstateToPropertyHelperService.entityToPropertyList(realEstates);
+    }
+
+    public List getPopularCities() {
+        return realEstateDAO.getPopularCities();
+    }
+
 }

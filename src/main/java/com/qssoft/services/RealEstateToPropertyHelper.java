@@ -51,15 +51,23 @@ class RealEstateToPropertyHelperService
                 dealType.getName(),
                 status.getName(),
                 owner.getLogin(),
-                entity.getPictureCode()
+                entity.getPictureCode(),
+                entity.getCity(),
+                entity.getPropertyTypeId(),
+                entity.getPropertyType() != null ? entity.getPropertyType().getName() : null,
+                entity.getImg1(),
+                entity.getImg2(),
+                entity.getImg3(),
+                entity.getImg4(),
+                entity.getImg5()
         );
         return result;
     }
 
-    public List<Property> entityToPropertyList(List<RealEstate> entityes)
+    public List<Property> entityToPropertyList(List<RealEstate> entities)
     {
-        List<Property> result = new ArrayList<Property>(entityes.size());
-        for(RealEstate realEstate : entityes) {
+        List<Property> result = new ArrayList<Property>(entities.size());
+        for(RealEstate realEstate : entities) {
             result.add(entityToProperty(realEstate));
         }
         return result;
