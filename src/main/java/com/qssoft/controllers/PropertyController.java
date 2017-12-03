@@ -73,6 +73,13 @@ public class PropertyController
         if (property.getStatusId() == null) {
             property.setStatusId(propertyStatusMap.get("NEW"));
         }
+
+        if ( property.getImg1() == null || property.getImg1().isEmpty() ) property.setImg1(null);
+        if ( property.getImg2() == null || property.getImg2().isEmpty() ) property.setImg2(null);
+        if ( property.getImg3() == null || property.getImg3().isEmpty() ) property.setImg3(null);
+        if ( property.getImg4() == null || property.getImg4().isEmpty() ) property.setImg4(null);
+        if ( property.getImg5() == null || property.getImg5().isEmpty() ) property.setImg5(null);
+
         propertyDetailsService.createOrUpdateProperty(property);
 
         response.sendRedirect("/");

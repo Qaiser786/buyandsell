@@ -565,28 +565,38 @@ a.jqTransformSelectOpen {
 	display:none
 }
 
-#picturesDiv {
-
+.imageRow .deleteButton {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #bfbfbf;
+    text-decoration: underline;
+    margin-top: 1em;
 }
 
-#imageTemplateWrapper {
-	position: relative;
+.imageRow .imageTemplateWrapper {
+    position: relative;
 }
 
-#imageLoader {
-	width: 100%;
-	height: 300px;
-	background-image: url('../images/ajax_loader_gray_512.gif');
-	background-size: contain;
-	background-position: center center;
-	background-repeat: no-repeat;
-	position: absolute;
-	top: 0;
-	left: 0;
+.imageRow .imageTemplateWrapper.loadingWrapper {
+    height: 300px;
 }
 
-#imageTemplate {
-	width: 100%;
-	height: 300px;
-	object-fit: cover;
+/*noinspection CssOptimizeSimilarProperties*/
+.imageRow .imageTemplateWrapper .imageLoader {
+    width: 100%;
+    height: 300px;
+    background-image: url('../images/ajax_loader_gray_512.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.imageRow .imageTemplateWrapper .imageTemplate {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
 }

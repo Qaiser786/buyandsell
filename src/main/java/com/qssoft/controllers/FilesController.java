@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/files")
@@ -41,6 +42,9 @@ public class FilesController {
             if ( file == null ) {
                 response.sendError(404);
             } else {
+                final long cacheAge = 155520;
+                response.addHeader("Cache-Control", "max-age=" + cacheAge);
+                response.addHeader("Expires", String.valueOf(new Date().getTime() + cacheAge*1000));
                 response.setContentType(file.getContentType());
                 response.getOutputStream().write(Base64.getDecoder().decode(file.getContent()));
                 response.flushBuffer();
@@ -53,34 +57,9 @@ public class FilesController {
         }
     }
 
-
-//    @RequestMapping(value = "/file/{id}/*", method = RequestMethod.GET)
-//    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Long id) {
-//        System.out.println("download: " + id);
-//        try {
-//            File file = fileService.findById(id);
-//            if ( file == null ) {
-//                response.sendError(404);
-//            } else {
-//                response.setContentType(file.getContentType());
-//                response.getOutputStream().write(Base64.getDecoder().decode(file.getContent()));
-//                response.flushBuffer();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            try {
-//                response.sendError(500);
-//            } catch (Exception ignored) {}
-//        }
-//    }
-
-    @RequestMapping(value = "/delete/{reference}", method = RequestMethod.POST)
-    public @ResponseBody Boolean delete(@PathVariable String reference) {
-        return fileService.delete(reference);
-    }
-
-    public static String getFullPath(String reference) {
-        return "/files/" + reference;
+    @RequestMapping(value = "/delete/{id}/*", method = RequestMethod.POST)
+    public @ResponseBody Boolean delete(@PathVariable("id") Long id) {
+        return fileService.delete(id);
     }
 
 }
